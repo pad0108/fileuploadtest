@@ -5,14 +5,31 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- 구글 css 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
+<style type="text/css">
+td{
+	font-family: 'Noto Sans JP', sans-serif;
+}
+tr{
+	font-family: 'Noto Sans JP', sans-serif;
+}
+button{
+	font-family: 'Noto Sans JP', sans-serif;
+}
+</style>
 </head>
 <body>
+<div class="container">
 	<h1>boardList</h1>
-	<table border="1">
+	<a href="${pageContext.request.contextPath}/addBoard" style="float:right; margin-bottom:5px;" class="btn btn-primary">글 쓰기</a>
+	<table class="table table-striped" style="table-layout:fixed; width:100%;">
 		<tr>
-			<th>board_id</th>
-			<th>board_title</th>
-			<th>boardfile</th>
+			<th style="width:10%;">번호</th>
+			<th style="width:20%;">제목</th>
+			<th style="width:70%;">내용</th>
 		</tr>
 		<c:forEach var="b" items="${boardList}">
 			<tr>
@@ -22,18 +39,8 @@
 						${b.boardTitle}
 					</a>
 				</td>
-				<td>
-					<c:forEach var="bf" items="${b.boardfile}">
-						<div>
-							<a href="${pageContext.request.contextPath}/upload/${bf.boardfileName}">${bf.boardfileName}</a>
-						</div>
-					</c:forEach>
-				</td>
-				<td>
-					<a href="${pageContext.request.contextPath}/removeBoard?boardId=${b.boardId}">삭제</a>
-				</td>
-				<td>
-					<a href="${pageContext.request.contextPath}/modifyBoard/${b.boardId}">수정</a>
+				<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+					${b.boardContent}
 				</td>
 			</tr>
 		</c:forEach>
@@ -44,5 +51,6 @@
 		<c:if test="${currentPage<lastPage}">
 			<a href="${pageContext.request.contextPath}/boardList/${currentPage+1}">다음</a>
 		</c:if>
+</div>
 </body>
 </html>

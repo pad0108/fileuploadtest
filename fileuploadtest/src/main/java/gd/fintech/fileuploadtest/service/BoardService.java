@@ -25,7 +25,7 @@ import gd.fintech.fileuploadtest.vo.Boardfile;
 public class BoardService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	//파일 경로 지정
-	private final String PATH = "D:\\stswork\\fileuploadtest\\src\\main\\webapp\\upload\\";
+	private final String PATH = "D:\\workspace\\git-workspace\\fileuploadtest\\fileuploadtest\\src\\main\\webapp\\upload\\";
 	@Autowired BoardMapper boardMapper;
 	@Autowired BoardfileMapper boardfileMapper;
 	

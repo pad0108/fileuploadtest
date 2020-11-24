@@ -20,4 +20,5 @@ public interface BoardMapper {
 	Board selectBoardOne(int boardId);
 	//수정
 	int updateBoard(Board board);
+	
 }

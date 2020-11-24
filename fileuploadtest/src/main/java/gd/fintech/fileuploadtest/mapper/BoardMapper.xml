@@ -14,7 +14,7 @@
 			#{boardContent}
 		)
 	</insert>
-	<resultMap type="gd.fintech.fileuploadtest.vo.Board" id="selectBoardListByPageResult">
+	<resultMap type="gd.fintech.fileuploadtest.vo.Board" id="selectBoardOneResult">
 		<result property="boardId" column="board_id"/>
 		<result property="boardTitle" column="board_title"/>
 		<result property="boardContent" column="board_content"/>
@@ -25,20 +25,19 @@
 			<result property="boardfileType" column="boardfile_type"/>
 			<result property="boardfileSize" column="boardfile_size"/>
 		</collection>
+		<collection property="commentList" ofType="gd.fintech.fileuploadtest.vo.Comment">
+			<result property="commentId" column="comment_id"/>
+			<result property="boardId" column="board_id"/>
+			<result property="commentContent" column="comment_content"/>
+		</collection>
 	</resultMap>
-	<select id ="selectBoardListByPage" parameterType="java.util.Map" resultMap="selectBoardListByPageResult">
+	<select id ="selectBoardListByPage" resultType="gd.fintech.fileuploadtest.vo.Board">
 		SELECT
-			b.board_id,
-			b.board_title,
-			b.board_content,
-			bf.boardfile_id,
-			bf.board_id,
-			bf.boardfile_name,
-			bf.boardfile_type,
-			bf.boardfile_size
-		FROM board b LEFT OUTER JOIN boardfile bf
-		ON b.board_id =  bf.board_id
-		ORDER BY b.board_id DESC
+			board_id boardId,
+			board_title boardTitle,
+			board_content boardContent
+		FROM board
+		ORDER BY board_id DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	<select id="selectBoardcount" resultType="Integer">
@@ -48,19 +47,15 @@
 		DELETE FROM board
 		WHERE board_id=#{boardId}
 	</delete>
-	<select id="selectBoardOne" parameterType="int" resultMap="selectBoardListByPageResult">
-		SELECT 
-			b.board_id,
-			b.board_title,
-			b.board_content,
-			bf.boardfile_id,
-			bf.boardfile_name,
-			bf.boardfile_type,
-			bf.boardfile_size
-		FROM board b
-		LEFT OUTER JOIN boardfile bf
-		ON b.board_id = bf.board_id
-		WHERE b.board_id = #{boardId}
+	<select id="selectBoardOne" parameterType="int" resultMap="selectBoardOneResult">
+        SELECT 
+        	b.*, bf.*, c.*
+		FROM board b 
+			LEFT JOIN boardfile bf
+			ON b.board_id = bf.board_id 
+			LEFT JOIN comment c
+			on b.board_id = c.board_id
+         WHERE b.board_id = #{boardId}
 	</select>
 	<update id="updateBoard" parameterType="gd.fintech.fileuploadtest.vo.Board">
 		UPDATE

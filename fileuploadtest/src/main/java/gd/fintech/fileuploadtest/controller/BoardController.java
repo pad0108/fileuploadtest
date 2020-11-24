@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import gd.fintech.fileuploadtest.service.BoardService;
 import gd.fintech.fileuploadtest.vo.Board;
@@ -31,7 +30,7 @@ public class BoardController {
 		logger.debug(boardForm.toString());
 		//logger.debug("size : " + boardForm.getBoardfile().size());
 		boardService.addBoard(boardForm);
-		return "redirect:/";
+		return "redirect:/boardList/1";
 	}
 	
 	@GetMapping("/")
@@ -63,8 +62,8 @@ public class BoardController {
 		return "boardList";
 	}
 	
-	@GetMapping("/removeBoard")
-	public String removeBoard(@RequestParam(value = "boardId") int boardId) {
+	@GetMapping("/removeBoard/{boardId}")
+	public String removeBoard( @PathVariable(value="boardId")int boardId) {
 		boardService.removeBoard(boardId);
 		return "redirect:/boardList/1";
 	}
